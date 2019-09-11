@@ -8,9 +8,10 @@ public class PiggyController : MonoBehaviour
     Quaternion startRotation;
     Transform cannon;
     const int WAIT_TIME = 3;
+
     // Start is called before the first frame update
     void Start()
-    {
+    {   
         cannon = transform.parent;
         startPosition = transform.localPosition;
         startRotation = transform.localRotation;
@@ -24,7 +25,9 @@ public class PiggyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        StartCoroutine("ResetPiggy", 0);
+        ScoreManager.score++;
+        Invoke("ResetPiggy", 4);
+        Debug.Log(ScoreManager.score);
     }
 
     void ResetPiggy()
