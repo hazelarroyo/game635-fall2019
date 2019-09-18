@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoreManager
+public class ScoreManager : Subject
 {
     public static int score = 0;
+    public Observer displayScore;
 
-    public static ScoreManager instance = new ScoreManager();
-
-    //making ScoreManager private makes it so that you cannot create a new 
-    //instance of the class in another script
-
-    private ScoreManager()
+    private void Start()
     {
-
+        RegisterObserver(displayScore);
     }
-
-    //Note: This script is an example of a Singleton
+    public void UpdateScore(int point)
+    {
+        score += point;
+        Notify(score, NotificationType.ScoreUpdated);
+    }
 }

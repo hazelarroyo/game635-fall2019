@@ -7,6 +7,7 @@ public class PiggyController : MonoBehaviour
     Vector3 startPosition;
     Quaternion startRotation;
     Transform cannon;
+    public ScoreManager scoreManager;
     const int WAIT_TIME = 3;
 
     // Start is called before the first frame update
@@ -25,9 +26,8 @@ public class PiggyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        ScoreManager.score++;
+        scoreManager.UpdateScore(1);
         Invoke("ResetPiggy", 4);
-        Debug.Log(ScoreManager.score);
     }
 
     void ResetPiggy()

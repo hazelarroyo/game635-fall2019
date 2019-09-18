@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro; 
 
-public class DisplayScore : MonoBehaviour
+public class DisplayScore : Observer
 {
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
+    public override void OnNotify(object o, NotificationType n)
     {
-        GetComponent<TextMeshProUGUI>().text = "Score: " + ScoreManager.score.ToString();
+        if (n == NotificationType.ScoreUpdated)
+        {
+            GetComponent<TextMeshProUGUI>().text = "Score: " + o;
+        }
+
     }
 }
