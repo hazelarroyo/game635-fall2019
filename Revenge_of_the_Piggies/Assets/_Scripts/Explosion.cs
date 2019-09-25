@@ -6,11 +6,11 @@ public class Explosion : MonoBehaviour
 {
     public GameObject exploder; 
 
-    private void OnCollisionEnter2D(Collision2D collision)
+   void Update ()
     {
-        if (collision.gameObject.tag == "Player")
+        if (Input.GetButtonDown("Jump"))
         {
-            Destroy(exploder);
+            gameObject.SetActive(false);
         }
     }
 }
