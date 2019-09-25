@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    public GameObject player;
+    public GameObject exploder; 
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "PiggyPlayer")
+        if (collision.gameObject.tag == "Player")
         {
-            gameObject.SetActive(false);
+            Destroy(exploder);
         }
     }
 }
