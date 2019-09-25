@@ -15,6 +15,6 @@ public class CameraFollow : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 goal = new Vector3(piggy.position.x, transform.position.y, transform.position.z);
-        transform.position = Vector3.MoveTowards(transform.position, goal, 0.1f);
+        transform.position = Vector3.MoveTowards(transform.position, goal, 0.5f);
     }
 }

@@ -24,7 +24,10 @@ public class PiggyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetButtonDown("Fire2"))
+        {
+            ResetPiggy();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -32,14 +35,12 @@ public class PiggyController : MonoBehaviour
         scoreManager.UpdateScore(1);
         if (!resetting)
         {
-            Invoke("ResetPiggy", 4);
             resetting = true;
         }
     }
 
     void ResetPiggy()
     {
-
         transform.parent = cannon;
         transform.localPosition = startPosition;
         transform.localRotation = startRotation;

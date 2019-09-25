@@ -11,6 +11,7 @@ public class ScoreManager : Subject
     {
         RegisterObserver(displayScore);
     }
+
     public void UpdateScore(int point)
     {
         score += point;
