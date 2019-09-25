@@ -32,7 +32,11 @@ public class PiggyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        scoreManager.UpdateScore(1);
+        if (collision.gameObject.tag == "block")
+        {
+            scoreManager.UpdateScore(10);
+        }
+
         if (!resetting)
         {
             resetting = true;
