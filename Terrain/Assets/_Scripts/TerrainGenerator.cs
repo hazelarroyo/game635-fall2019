@@ -1,55 +1,60 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
 
 public class TerrainGenerator : MonoBehaviour
 {
-    [RangeAttribute(1f,10f)]
-    public float flatness = 1;
-    [RangeAttribute(1f, 20f)]
-    public float frequency = 1;
-    [RangeAttribute(1, 10)]
-    public int octaves = 8;
-    Texture2D image;
-    Terrain terrain;
+    public int depth = 20;
 
-    void Start()
+    public int width = 256;
+    public int height = 256;
+
+    public float scale = 20f;
+
+    public float offsetX = 100f;
+    public float offsetY = 100f;
+
+    private void Start()
     {
-        terrain = GetComponent<Terrain>();
-        image = new Texture2D(terrain.terrainData.heightmapWidth, terrain.terrainData.heightmapHeight);
-        image.LoadImage(File.ReadAllBytes("Assets/Mt_Taranaki.png"));
+        offsetX = Random.Range(0f, 9999f);
+        offsetY = Random.Range(0f, 9999f);
     }
 
-    void Update()
+    private void Update()
     {
+        Terrain terrain = GetComponent<Terrain>();
+        terrain.terrainData = GenerateTerrain(terrain.terrainData);
 
-        float[,] heightmap = terrain.terrainData.GetHeights(0, 0, terrain.terrainData.heightmapWidth,
-            terrain.terrainData.heightmapHeight);
+        offsetY += Time.deltaTime * 4f;
+    }
 
-        for (int i = 0; i < terrain.terrainData.heightmapHeight; ++i)
+    TerrainData GenerateTerrain (TerrainData terrainData)
+    {
+        terrainData.heightmapResolution = width + 1;
+        terrainData.size = new Vector3(width, depth, height);
+        terrainData.SetHeights(0, 0, GenerateHeights());
+        return terrainData;
+    }
+
+    float [,] GenerateHeights()
+    {
+        float[,] heights = new float[width, height];
+        for (int x = 0; x < width; x++)
         {
-            for (int j = 0; j < terrain.terrainData.heightmapWidth; ++j)
+            for (int y = 0; y < height; y++)
             {
-                float x = j / (float)terrain.terrainData.heightmapWidth;
-                float y = i / (float)terrain.terrainData.heightmapHeight;
-                float height = image.GetPixel(i, j).b; 
-
-                /* Perlin Noise Version
-                float current_frequency = frequency;
-
-                float amplitude = 1f;
-                for (int z = 0; z < octaves; ++z)
-                {
-                    height = height + Mathf.PerlinNoise(x * current_frequency, y * current_frequency) * amplitude;
-                    amplitude /= 2;
-                    current_frequency *= 2;
-                }
-                */
-                heightmap[i, j] = height / flatness + Random.Range(0f, 0.01f);
+                heights[x, y] = CalculateHeight(x, y);
             }
         }
 
-        terrain.terrainData.SetHeights(0, 0, heightmap);
+        return heights;
+    }
+
+    float CalculateHeight(int x, int y)
+    {
+        float xCoord = (float)x / width * scale + offsetX;
+        float yCoord = (float)y / height * scale + offsetY;
+
+        return Mathf.PerlinNoise(xCoord, yCoord);
     }
 }
