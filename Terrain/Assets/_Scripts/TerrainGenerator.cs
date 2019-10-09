@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class TerrainGenerator : MonoBehaviour
 {
+    /* Perlin Noise Infinite Terrain Generator with Forward Movement
+     * of the terrain, not the camera*/
+       
     public int depth = 20;
 
     public int width = 256;
